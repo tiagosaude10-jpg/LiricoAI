@@ -61,6 +61,23 @@ jobs:
         run: |
           Copy-Item -Recurse -Force .\dll_backup .\buzz\dll_backup
 
+      - name: Normalize Transcript Windows icon
+        shell: bash
+        run: |
+          uv run python - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+
+          icon_path = Path("buzz/assets/transcript.ico")
+          image = Image.open(icon_path).convert("RGBA")
+          image.save(
+              icon_path,
+              format="ICO",
+              sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)],
+          )
+          print("Transcript ICO normalized successfully")
+          PY
+
       - name: Build Transcript installer
         shell: bash
         run: |
