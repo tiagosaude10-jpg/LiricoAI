@@ -1,0 +1,91 @@
+name: Transcript Windows Build
+
+on:
+  push:
+    branches:
+      - transcript-branding
+  workflow_dispatch:
+
+concurrency:
+  group: transcript-windows-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    env:
+      BUZZ_DISABLE_TELEMETRY: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v9.0.0
+        with:
+          save-cache: false
+
+      - name: Install Vulkan SDK
+        shell: pwsh
+        run: |
+          $ver = '1.4.313.2'
+          curl.exe -f -o "$env:RUNNER_TEMP/VulkanSDK-Installer.exe" -L "https://sdk.lunarg.com/sdk/download/$ver/windows/vulkan-sdk.exe"
+          & "$env:RUNNER_TEMP/VulkanSDK-Installer.exe" --accept-licenses --default-answer --confirm-command install
+          Add-Content $env:GITHUB_ENV "VULKAN_SDK=C:\VulkanSDK\$ver"
+          Add-Content $env:GITHUB_PATH "C:\VulkanSDK\$ver\bin"
+
+      - name: Install FFmpeg
+        uses: AnimMouse/setup-ffmpeg@v1
+        with:
+          version: '8.1'
+
+      - name: Install Inno Setup
+        uses: crazy-max/ghaction-chocolatey@v4
+        with:
+          args: install innosetup --yes
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v3
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          uv sync
+          uv pip install msvc-runtime
+
+      - name: Prepare runtime DLL backup
+        shell: pwsh
+        run: |
+          Copy-Item -Recurse -Force .\dll_backup .\buzz\dll_backup
+
+      - name: Build Transcript installer
+        shell: bash
+        run: |
+          uv run make bundle_windows
+
+      - name: Verify Transcript output
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "dist\Transcript")) {
+            throw "dist\Transcript was not generated"
+          }
+          if (-not (Test-Path "dist\Transcript\Transcript.exe")) {
+            throw "Transcript.exe was not generated"
+          }
+          $installer = Get-ChildItem "dist\Transcript-*-windows.exe" | Select-Object -First 1
+          if (-not $installer) {
+            throw "Transcript Windows installer was not generated"
+          }
+          Write-Host "Generated executable: dist\Transcript\Transcript.exe"
+          Write-Host "Generated installer: $($installer.FullName)"
+
+      - name: Upload Transcript installer
+        uses: actions/upload-artifact@v7
+        with:
+          name: Transcript-Windows
+          path: |
+            dist/Transcript-*-windows.exe
+          if-no-files-found: error
