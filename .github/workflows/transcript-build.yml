@@ -104,7 +104,7 @@ jobs:
           with icon_path.open("rb") as fh:
               header = fh.read(6)
 
-          if header[:4] != b"\\x00\\x00\\x01\\x00":
+          if header[:4] != bytes([0, 0, 1, 0]):
               raise RuntimeError(f"Invalid ICO header: {header!r}")
 
           print(f"Transcript ICO generated successfully: {icon_path.stat().st_size} bytes")
