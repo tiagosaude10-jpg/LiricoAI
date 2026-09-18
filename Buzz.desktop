@@ -4,13 +4,13 @@ Type=Application
 
 Encoding=UTF-8
 
-Name=Buzz
+Name=Transcript
 
-Comment=Buzz transcribes and translates audio offline on your personal computer.
+Comment=Transcript transcribes and translates audio offline on your personal computer.
 
 Exec=buzz
 
-Icon=Buzz
+Icon=Transcript
 
 Terminal=false
 
