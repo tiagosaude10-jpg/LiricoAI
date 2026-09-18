@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build Buzz as a Linux AppImage.
+# Build Transcript as a Linux AppImage.
 #
 # Prerequisites — install before running:
 #   Ubuntu/Debian:
@@ -23,20 +23,20 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 BUILD_DIR="$PROJECT_DIR/build/appimage"
-APPDIR="$BUILD_DIR/Buzz.AppDir"
+APPDIR="$BUILD_DIR/Transcript.AppDir"
 ARCH="$(uname -m)"
 VERSION="$(grep '^version := ' "$PROJECT_DIR/Makefile" | head -1 | awk '{print $3}')"
-OUTPUT="$PROJECT_DIR/dist/Buzz-${VERSION}-${ARCH}.AppImage"
+OUTPUT="$PROJECT_DIR/dist/Transcript-${VERSION}-${ARCH}.AppImage"
 
-echo "==> Building Buzz ${VERSION} AppImage for ${ARCH}"
+echo "==> Building Transcript ${VERSION} AppImage for ${ARCH}"
 
 # ── Step 1: PyInstaller bundle ──────────────────────────────────────────────
 # Reuses the existing Buzz.spec (same as macOS/Windows builds).
-# Produces dist/Buzz/ with the self-contained application.
-if [ ! -d "$PROJECT_DIR/dist/Buzz" ]; then
+# Produces dist/Transcript/ with the self-contained application.
+if [ ! -d "$PROJECT_DIR/dist/Transcript" ]; then
     echo "==> Running PyInstaller..."
     cd "$PROJECT_DIR"
-    uv run make dist/Buzz
+    uv run make dist/Transcript
 fi
 
 # ── Step 2: Create AppDir ───────────────────────────────────────────────────
@@ -73,24 +73,24 @@ chmod +x "$APPDIR/usr/bin/uv"
 
 # ── Step 3: Desktop integration ─────────────────────────────────────────────
 # Desktop file — Exec must be just the binary name for AppImage spec
-cat > "$APPDIR/Buzz.desktop" << 'EOF'
+cat > "$APPDIR/Transcript.desktop" << 'EOF'
 [Desktop Entry]
 Type=Application
-Name=Buzz
+Name=Transcript
 GenericName=Audio Transcriber
 Comment=Transcribe and translate audio offline
-Exec=Buzz
-Icon=Buzz
+Exec=Transcript
+Icon=Transcript
 Terminal=false
 Categories=AudioVideo;Audio;
 MimeType=audio/mpeg;audio/wav;audio/ogg;audio/flac;video/mp4;video/webm;
 EOF
-cp "$APPDIR/Buzz.desktop" "$APPDIR/usr/share/applications/"
+cp "$APPDIR/Transcript.desktop" "$APPDIR/usr/share/applications/"
 
 # Icon (SVG at AppDir root + XDG hicolor location)
-cp "$PROJECT_DIR/share/icons/io.github.chidiwilliams.Buzz.svg" "$APPDIR/Buzz.svg"
+cp "$PROJECT_DIR/share/icons/io.github.chidiwilliams.Buzz.svg" "$APPDIR/Transcript.svg"
 cp "$PROJECT_DIR/share/icons/io.github.chidiwilliams.Buzz.svg" \
-   "$APPDIR/usr/share/icons/hicolor/scalable/apps/Buzz.svg"
+   "$APPDIR/usr/share/icons/hicolor/scalable/apps/Transcript.svg"
 
 # AppStream metainfo (appimagetool expects .appdata.xml suffix)
 cp "$PROJECT_DIR/share/metainfo/io.github.chidiwilliams.Buzz.metainfo.xml" \
@@ -105,7 +105,7 @@ APPDIR="$(dirname "$SELF")"
 
 # The type-2 runtime already exports this; re-exporting keeps it correct for
 # an extracted AppDir too, so buzz/cuda_manager.py's is_appimage() can tell
-# that Buzz itself is the running bundle.
+# that Transcript itself is the running bundle.
 export APPDIR
 
 export PATH="$APPDIR/usr/bin:$PATH"
@@ -113,7 +113,7 @@ export LD_LIBRARY_PATH="$APPDIR/usr/bin:${LD_LIBRARY_PATH:-}"
 export QT_MEDIA_BACKEND=ffmpeg
 export PULSE_LATENCY_MSEC=30
 
-exec "$APPDIR/usr/bin/Buzz" "$@"
+exec "$APPDIR/usr/bin/Transcript" "$@"
 APPRUN
 chmod +x "$APPDIR/AppRun"
 
