@@ -3,7 +3,7 @@
 
 #define AppName "Transcript"
 #define AppExeName "Transcript.exe"
-#define AppIconPath "buzz\assets\buzz.ico"
+#define AppIconPath "buzz\\assets\\transcript.ico"
 #define AppSourcePath "dist\Buzz\*"
 #define OutputDir "dist"
 #define AppRegKey "Software\Buzz"
