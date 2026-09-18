@@ -173,7 +173,7 @@ exe = EXE(
     pyz,
     a.scripts,
     options,
-    icon="./buzz/assets/buzz.ico",
+    icon="./buzz/assets/transcript.ico",
     exclude_binaries=True,
     name="Transcript",
     debug=DEBUG,
@@ -200,7 +200,7 @@ coll = COLLECT(
 app = BUNDLE(
     coll,
     name="Transcript.app",
-    icon="./buzz/assets/buzz.icns",
+    icon="./buzz/assets/transcript.icns",
     bundle_identifier="com.tiagosaude10.transcript",
     version=VERSION,
     info_plist={
