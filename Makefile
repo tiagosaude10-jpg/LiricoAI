@@ -123,7 +123,7 @@ dmg_mac:
 	ditto -x -k "${mac_zip_path}" dist/dmg
 	create-dmg \
 		--volname "Transcript" \
-		--volicon "./buzz/assets/buzz.icns" \
+		--volicon "./buzz/assets/transcript.icns" \
 		--window-pos 200 120 \
 		--window-size 600 300 \
 		--icon-size 100 \
@@ -140,7 +140,7 @@ dmg_mac_unsigned:
 	ditto -x -k "${mac_zip_path}" dist/dmg
 	create-dmg \
 		--volname "Transcript" \
-		--volicon "./buzz/assets/buzz.icns" \
+		--volicon "./buzz/assets/transcript.icns" \
 		--window-pos 200 120 \
 		--window-size 600 300 \
 		--icon-size 100 \
