@@ -4,9 +4,9 @@
 #define AppName "Transcript"
 #define AppExeName "Transcript.exe"
 #define AppIconPath "buzz\\assets\\transcript.ico"
-#define AppSourcePath "dist\Buzz\*"
+#define AppSourcePath "dist\\Transcript\\*"
 #define OutputDir "dist"
-#define AppRegKey "Software\Buzz"
+#define AppRegKey "Software\\Transcript"
 
 #define VersionFile FileRead(FileOpen("buzz\__version__.py"))
 #define AppVersion Copy(VersionFile, Pos('VERSION = "', VersionFile) + 11, 5)
@@ -38,12 +38,12 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: {#AppSourcePath}; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-; Ship the OpenSSL pair next to Buzz.exe so a system OpenSSL on PATH can't shadow libcrypto
+; Ship the OpenSSL pair next to Transcript.exe so a system OpenSSL on PATH can't shadow libcrypto
 ; while libssl is still loaded from the bundle (mismatched pair => "CRYPTO_calloc not found").
-Source: "dist\Buzz\_internal\libssl-3-x64.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
-Source: "dist\Buzz\_internal\libcrypto-3-x64.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "dist\Transcript\_internal\libssl-3-x64.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "dist\Transcript\_internal\libcrypto-3-x64.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 ; DotLocal redirection: forces the loader to prefer {app} for DLL resolution.
-Source: "buzz\assets\Buzz.exe.local"; DestDir: "{app}"; Flags: ignoreversion
+Source: "buzz\assets\Transcript.exe.local"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -79,7 +79,7 @@ begin
       begin
         RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, '{#AppRegKey}');
         // Remove model and cache directories
-        DeleteFileOrFolder(ExpandConstant('{localappdata}\Buzz'));
+        DeleteFileOrFolder(ExpandConstant('{localappdata}\Transcript'));
       end;
   end;
 end;
@@ -88,7 +88,7 @@ procedure CurStepChanged(CurStep: TSetupStep);
 begin
   if CurStep = ssInstall then
   begin
-    DeleteFileOrFolder(ExpandConstant('{app}\Buzz.exe'));
+    DeleteFileOrFolder(ExpandConstant('{app}\Transcript.exe'));
     DeleteFileOrFolder(ExpandConstant('{app}\_internal'));
   end;
 end;
