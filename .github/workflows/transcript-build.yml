@@ -61,21 +61,53 @@ jobs:
         run: |
           Copy-Item -Recurse -Force .\dll_backup .\buzz\dll_backup
 
-      - name: Normalize Transcript Windows icon
+      - name: Generate valid Transcript Windows icon
         shell: bash
         run: |
           uv run python - <<'PY'
-          from PIL import Image
+          from PIL import Image, ImageDraw
           from pathlib import Path
 
+          size = 1024
+          orange = (242, 111, 33, 255)
+          white = (255, 255, 255, 255)
+
+          img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+          draw = ImageDraw.Draw(img)
+
+          draw.rounded_rectangle((61, 61, 963, 963), radius=225, fill=orange)
+
+          bars = [
+              (179, 430, 225, 594),
+              (261, 358, 307, 666),
+              (343, 276, 389, 748),
+              (425, 358, 471, 666),
+              (507, 430, 553, 594),
+          ]
+          for box in bars:
+              draw.rounded_rectangle(box, radius=23, fill=white)
+
+          draw.rounded_rectangle((481, 496, 635, 528), radius=16, fill=white)
+          draw.polygon([(635, 435), (717, 512), (635, 589)], fill=white)
+
+          draw.rounded_rectangle((707, 399, 871, 428), radius=15, fill=white)
+          draw.rounded_rectangle((707, 496, 912, 525), radius=15, fill=white)
+          draw.rounded_rectangle((707, 594, 840, 623), radius=15, fill=white)
+
           icon_path = Path("buzz/assets/transcript.ico")
-          image = Image.open(icon_path).convert("RGBA")
-          image.save(
+          img.save(
               icon_path,
               format="ICO",
               sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)],
           )
-          print("Transcript ICO normalized successfully")
+
+          with icon_path.open("rb") as fh:
+              header = fh.read(6)
+
+          if header[:4] != b"\\x00\\x00\\x01\\x00":
+              raise RuntimeError(f"Invalid ICO header: {header!r}")
+
+          print(f"Transcript ICO generated successfully: {icon_path.stat().st_size} bytes")
           PY
 
       - name: Build Transcript installer
