@@ -25,9 +25,9 @@ from buzz.widgets.cuda_installer_widget import CudaInstallerDialog
 
 class AboutDialog(QDialog):
     GITHUB_API_LATEST_RELEASE_URL = (
-        "https://api.github.com/repos/chidiwilliams/buzz/releases/latest"
+        "https://api.github.com/repos/tiagosaude10-jpg/Transcript/releases/latest"
     )
-    GITHUB_LATEST_RELEASE_URL = "https://github.com/chidiwilliams/buzz/releases/latest"
+    GITHUB_LATEST_RELEASE_URL = "https://github.com/tiagosaude10-jpg/Transcript/releases/latest"
 
     def __init__(
         self,
@@ -112,7 +112,7 @@ class AboutDialog(QDialog):
         self.check_updates_button.setDisabled(True)
 
     def on_click_show_logs(self):
-        log_dir = user_log_dir(appname="Buzz")
+        log_dir = user_log_dir(appname="Transcript")
         QDesktopServices.openUrl(QUrl.fromLocalFile(log_dir))
 
     def on_click_cuda_installer(self):
