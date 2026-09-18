@@ -88,8 +88,8 @@ EOF
 cp "$APPDIR/Transcript.desktop" "$APPDIR/usr/share/applications/"
 
 # Icon (SVG at AppDir root + XDG hicolor location)
-cp "$PROJECT_DIR/share/icons/io.github.chidiwilliams.Buzz.svg" "$APPDIR/Transcript.svg"
-cp "$PROJECT_DIR/share/icons/io.github.chidiwilliams.Buzz.svg" \
+cp "$PROJECT_DIR/buzz/assets/transcript.svg" "$APPDIR/Transcript.svg"
+cp "$PROJECT_DIR/buzz/assets/transcript.svg" \
    "$APPDIR/usr/share/icons/hicolor/scalable/apps/Transcript.svg"
 
 # AppStream metainfo (appimagetool expects .appdata.xml suffix)
