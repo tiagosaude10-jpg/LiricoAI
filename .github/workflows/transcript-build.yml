@@ -1,4 +1,4 @@
-name: Transcript Windows Build
+name: Lírico AI Windows Build
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: transcript-windows-build-${{ github.ref }}
+  group: liricoai-windows-build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -61,7 +61,7 @@ jobs:
         run: |
           Copy-Item -Recurse -Force .\dll_backup .\buzz\dll_backup
 
-      - name: Generate valid Transcript Windows icon
+      - name: Generate valid Lírico AI Windows icon
         shell: bash
         run: |
           uv run python - <<'PY'
@@ -107,34 +107,34 @@ jobs:
           if header[:4] != bytes([0, 0, 1, 0]):
               raise RuntimeError(f"Invalid ICO header: {header!r}")
 
-          print(f"Transcript ICO generated successfully: {icon_path.stat().st_size} bytes")
+          print(f"Lírico AI ICO generated successfully: {icon_path.stat().st_size} bytes")
           PY
 
-      - name: Build Transcript installer
+      - name: Build Lírico AI installer
         shell: bash
         run: |
           uv run make bundle_windows
 
-      - name: Verify Transcript output
+      - name: Verify Lírico AI output
         shell: pwsh
         run: |
-          if (-not (Test-Path "dist\Transcript")) {
-            throw "dist\Transcript was not generated"
+          if (-not (Test-Path "dist\LiricoAI")) {
+            throw "dist\LiricoAI was not generated"
           }
-          if (-not (Test-Path "dist\Transcript\Transcript.exe")) {
-            throw "Transcript.exe was not generated"
+          if (-not (Test-Path "dist\LiricoAI\LiricoAI.exe")) {
+            throw "LiricoAI.exe was not generated"
           }
-          $installer = Get-ChildItem "dist\Transcript-*-windows.exe" | Select-Object -First 1
+          $installer = Get-ChildItem "dist\LiricoAI-*-windows.exe" | Select-Object -First 1
           if (-not $installer) {
-            throw "Transcript Windows installer was not generated"
+            throw "Lírico AI Windows installer was not generated"
           }
-          Write-Host "Generated executable: dist\Transcript\Transcript.exe"
+          Write-Host "Generated executable: dist\LiricoAI\LiricoAI.exe"
           Write-Host "Generated installer: $($installer.FullName)"
 
-      - name: Upload Transcript installer
+      - name: Upload Lírico AI installer
         uses: actions/upload-artifact@v7
         with:
-          name: Transcript-Windows
+          name: LiricoAI-Windows
           path: |
-            dist/Transcript-*-windows.exe
+            dist/LiricoAI-*-windows.exe
           if-no-files-found: error
