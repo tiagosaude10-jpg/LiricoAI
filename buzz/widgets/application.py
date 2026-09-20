@@ -92,7 +92,7 @@ class Application(QApplication):
             })
             threading.Thread(target=posthog.shutdown, daemon=True).start()
 
-        logging.debug(f"Launching Transcript: {VERSION}, " 
+        logging.debug(f"Launching Lírico AI: {VERSION}, " 
                       f"locale: {locale.getlocale()}, "
                       f"system: {platform.system()}, "
                       f"release: {platform.release()}, "
