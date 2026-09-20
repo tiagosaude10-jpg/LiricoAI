@@ -175,7 +175,7 @@ exe = EXE(
     options,
     icon="./buzz/assets/transcript.ico",
     exclude_binaries=True,
-    name="Transcript",
+    name="LiricoAI",
     debug=DEBUG,
     bootloader_ignore_signals=False,
     strip=False,
@@ -195,13 +195,13 @@ coll = COLLECT(
     strip=False,
     upx=False,
     upx_exclude=[],
-    name="Transcript",
+    name="LiricoAI",
 )
 app = BUNDLE(
     coll,
-    name="Transcript.app",
+    name="LiricoAI.app",
     icon="./buzz/assets/transcript.icns",
-    bundle_identifier="com.tiagosaude10.transcript",
+    bundle_identifier="com.tiagosaude10.liricoai",
     version=VERSION,
     info_plist={
         "NSPrincipalClass": "NSApplication",
