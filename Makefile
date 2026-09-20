@@ -122,7 +122,7 @@ print_identities_mac:
 dmg_mac:
 	ditto -x -k "${mac_zip_path}" dist/dmg
 	create-dmg \
-		--volname "Transcript" \
+		--volname "Lírico AI" \
 		--volicon "./buzz/assets/transcript.icns" \
 		--window-pos 200 120 \
 		--window-size 600 300 \
@@ -139,7 +139,7 @@ dmg_mac:
 dmg_mac_unsigned:
 	ditto -x -k "${mac_zip_path}" dist/dmg
 	create-dmg \
-		--volname "Transcript" \
+		--volname "Lírico AI" \
 		--volicon "./buzz/assets/transcript.icns" \
 		--window-pos 200 120 \
 		--window-size 600 300 \
@@ -172,7 +172,7 @@ codesign_all_mac: dist/LiricoAI.app
 	do \
 		codesign --force --options=runtime --sign "$$BUZZ_CODESIGN_IDENTITY" --timestamp "$$i"; \
 	done
-	codesign --force --options=runtime --sign "$$BUZZ_CODESIGN_IDENTITY" --timestamp dist/LiricoAI.app/Contents/MacOS/Transcript
+	codesign --force --options=runtime --sign "$$BUZZ_CODESIGN_IDENTITY" --timestamp dist/LiricoAI.app/Contents/MacOS/LiricoAI
 	codesign --force --options=runtime --sign "$$BUZZ_CODESIGN_IDENTITY" --entitlements ./entitlements.plist --timestamp dist/LiricoAI.app
 	codesign --verify --deep --strict --verbose=2 dist/LiricoAI.app
 
