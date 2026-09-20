@@ -4,13 +4,13 @@ Type=Application
 
 Encoding=UTF-8
 
-Name=Transcript
+Name=Lírico AI
 
-Comment=Transcript transcribes and translates audio offline on your personal computer.
+Comment=Lírico AI transcreve e traduz áudio offline no computador.
 
 Exec=buzz
 
-Icon=Transcript
+Icon=LiricoAI
 
 Terminal=false
 
