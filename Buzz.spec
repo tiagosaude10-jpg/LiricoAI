@@ -206,6 +206,6 @@ app = BUNDLE(
     info_plist={
         "NSPrincipalClass": "NSApplication",
         "NSHighResolutionCapable": "True",
-        "NSMicrophoneUsageDescription": "Allow Transcript to record audio from your microphone.",
+        "NSMicrophoneUsageDescription": "Allow Lírico AI to record audio from your microphone.",
     },
 )
