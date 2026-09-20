@@ -23,20 +23,20 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 BUILD_DIR="$PROJECT_DIR/build/appimage"
-APPDIR="$BUILD_DIR/Transcript.AppDir"
+APPDIR="$BUILD_DIR/LiricoAI.AppDir"
 ARCH="$(uname -m)"
 VERSION="$(grep '^version := ' "$PROJECT_DIR/Makefile" | head -1 | awk '{print $3}')"
-OUTPUT="$PROJECT_DIR/dist/Transcript-${VERSION}-${ARCH}.AppImage"
+OUTPUT="$PROJECT_DIR/dist/LiricoAI-${VERSION}-${ARCH}.AppImage"
 
-echo "==> Building Transcript ${VERSION} AppImage for ${ARCH}"
+echo "==> Building Lírico AI ${VERSION} AppImage for ${ARCH}"
 
 # ── Step 1: PyInstaller bundle ──────────────────────────────────────────────
 # Reuses the existing Buzz.spec (same as macOS/Windows builds).
-# Produces dist/Transcript/ with the self-contained application.
-if [ ! -d "$PROJECT_DIR/dist/Transcript" ]; then
+# Produces dist/LiricoAI/ with the self-contained application.
+if [ ! -d "$PROJECT_DIR/dist/LiricoAI" ]; then
     echo "==> Running PyInstaller..."
     cd "$PROJECT_DIR"
-    uv run make dist/Transcript
+    uv run make dist/LiricoAI
 fi
 
 # ── Step 2: Create AppDir ───────────────────────────────────────────────────
@@ -73,24 +73,24 @@ chmod +x "$APPDIR/usr/bin/uv"
 
 # ── Step 3: Desktop integration ─────────────────────────────────────────────
 # Desktop file — Exec must be just the binary name for AppImage spec
-cat > "$APPDIR/Transcript.desktop" << 'EOF'
+cat > "$APPDIR/LiricoAI.desktop" << 'EOF'
 [Desktop Entry]
 Type=Application
-Name=Transcript
+Name=Lírico AI
 GenericName=Audio Transcriber
 Comment=Transcribe and translate audio offline
-Exec=Transcript
-Icon=Transcript
+Exec=LiricoAI
+Icon=LiricoAI
 Terminal=false
 Categories=AudioVideo;Audio;
 MimeType=audio/mpeg;audio/wav;audio/ogg;audio/flac;video/mp4;video/webm;
 EOF
-cp "$APPDIR/Transcript.desktop" "$APPDIR/usr/share/applications/"
+cp "$APPDIR/LiricoAI.desktop" "$APPDIR/usr/share/applications/"
 
 # Icon (SVG at AppDir root + XDG hicolor location)
-cp "$PROJECT_DIR/buzz/assets/transcript.svg" "$APPDIR/Transcript.svg"
+cp "$PROJECT_DIR/buzz/assets/transcript.svg" "$APPDIR/LiricoAI.svg"
 cp "$PROJECT_DIR/buzz/assets/transcript.svg" \
-   "$APPDIR/usr/share/icons/hicolor/scalable/apps/Transcript.svg"
+   "$APPDIR/usr/share/icons/hicolor/scalable/apps/LiricoAI.svg"
 
 # AppStream metainfo (appimagetool expects .appdata.xml suffix)
 cp "$PROJECT_DIR/share/metainfo/io.github.chidiwilliams.Buzz.metainfo.xml" \
@@ -105,7 +105,7 @@ APPDIR="$(dirname "$SELF")"
 
 # The type-2 runtime already exports this; re-exporting keeps it correct for
 # an extracted AppDir too, so buzz/cuda_manager.py's is_appimage() can tell
-# that Transcript itself is the running bundle.
+# that Lírico AI itself is the running bundle.
 export APPDIR
 
 export PATH="$APPDIR/usr/bin:$PATH"
@@ -113,7 +113,7 @@ export LD_LIBRARY_PATH="$APPDIR/usr/bin:${LD_LIBRARY_PATH:-}"
 export QT_MEDIA_BACKEND=ffmpeg
 export PULSE_LATENCY_MSEC=30
 
-exec "$APPDIR/usr/bin/Transcript" "$@"
+exec "$APPDIR/usr/bin/LiricoAI" "$@"
 APPRUN
 chmod +x "$APPDIR/AppRun"
 
