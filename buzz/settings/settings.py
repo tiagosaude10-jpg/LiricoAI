@@ -5,7 +5,7 @@ import uuid
 
 from PyQt6.QtCore import QSettings
 
-APP_NAME = "Transcript"
+APP_NAME = "Lírico AI"
 
 
 class Settings:
