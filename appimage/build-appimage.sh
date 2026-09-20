@@ -48,7 +48,7 @@ mkdir -p "$APPDIR/usr/bin" \
          "$APPDIR/usr/share/metainfo"
 
 # Copy entire PyInstaller output into usr/bin/
-cp -a "$PROJECT_DIR/dist/Buzz/." "$APPDIR/usr/bin/"
+cp -a "$PROJECT_DIR/dist/LiricoAI/." "$APPDIR/usr/bin/"
 
 # Strip the executable-stack flag from bundled shared objects. uv's
 # python-build-standalone marks libpython PT_GNU_STACK=RWE, and kernels from
