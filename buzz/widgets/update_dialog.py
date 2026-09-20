@@ -59,7 +59,7 @@ class UpdateDialog(QDialog):
 
         #header
         header_label = QLabel(
-            _("A new version of Transcript is available!")
+            _("A new version of Lírico AI is available!")
         )
 
         header_label.setStyleSheet("font-size: 16px; font-weight: bold;")
