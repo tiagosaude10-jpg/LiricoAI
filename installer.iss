@@ -23,7 +23,7 @@ DisableProgramGroupPage=yes
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir={#OutputDir}
-OutputBaseFilename={#AppName}-{#AppVersion}-windows
+OutputBaseFilename=LiricoAI-{#AppVersion}-windows
 SetupIconFile={#AppIconPath}
 UninstallDisplayIcon={app}\{#AppExeName}
 Compression=lzma
@@ -79,7 +79,7 @@ begin
       begin
         RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, '{#AppRegKey}');
         // Remove model and cache directories
-        DeleteFileOrFolder(ExpandConstant('{localappdata}\Lírico AI'));
+        DeleteFileOrFolder(ExpandConstant('{localappdata}\LiricoAI'));
       end;
   end;
 end;
